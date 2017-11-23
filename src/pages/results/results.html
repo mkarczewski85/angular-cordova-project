@@ -8,13 +8,13 @@
 
 <ion-content padding>
   <ion-list-header>
-    Znalezione słowa:
+    Znalezione słowa ({{results?.length || '0'}}):
   </ion-list-header>
-  <ion-card *ngFor="let result of results">
+  <ion-card *ngFor="let result of results; let i = index">
     <ion-list>
       <ion-item>
         <ion-icon name="quote" item-left></ion-icon>
-        {{result.word}}
+        {{i}}. {{result.word}}
       </ion-item>
       <ion-item>
         <div class="show-list-numbers-and-dots">

@@ -1,7 +1,7 @@
 import { ResultsPage } from './../results/results';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'page-home',
@@ -13,9 +13,9 @@ export class HomePage {
 
   constructor(private navCtrl: NavController, private builder: FormBuilder) {
     this.myForm = builder.group({
-      'letters': '',
-      'additional': '',
-      'option': ''
+      'letters': ['', Validators.compose([Validators.maxLength(7), Validators.minLength(2), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      'additional': ['', Validators.compose([Validators.maxLength(1), Validators.pattern('[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]*')])],
+      'option': ['',  Validators.required]
     })
   }
 
