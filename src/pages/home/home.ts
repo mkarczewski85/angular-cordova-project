@@ -2,7 +2,7 @@ import { ResultsPage } from './../results/results';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LettersValidator } from '../../validators/letters';
+import { IsPlausible } from '../../validators/letters';
 
 @Component({
   selector: 'page-home',
@@ -19,7 +19,7 @@ export class HomePage implements OnInit {
 
   ngOnInit(): void {
     this.myForm = this.builder.group({
-      'letters': ['', Validators.compose([Validators.maxLength(7), Validators.pattern('[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*'), Validators.required, LettersValidator.isNotPlausible])],
+      'letters': ['', Validators.compose([Validators.maxLength(7), Validators.pattern('[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*'), Validators.required, IsPlausible])],
       'additional': ['', Validators.compose([Validators.maxLength(1), Validators.pattern('[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*')])],
       'option': ['', Validators.required]
     });

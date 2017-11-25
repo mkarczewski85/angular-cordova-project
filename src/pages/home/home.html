@@ -16,8 +16,8 @@
         </ion-input>
       </ion-item>
 
-      <ion-item *ngIf="!isValid('letters')">
-        <p danger padding-left>Wprowadź min. 2 i max. 7 liter!</p>
+      <ion-item *ngIf="!isValid('letters') && !isEmpty('letters')">
+        <p danger padding-left>Nieprawidłowe dane!</p>
       </ion-item>
 
       <ion-item>
