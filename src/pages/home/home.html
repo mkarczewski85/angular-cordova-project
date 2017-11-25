@@ -9,32 +9,43 @@
 <ion-content padding>
   <ion-list inset>
     <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)">
+      
       <ion-item>
         <ion-label color="primary">Twoje litery:</ion-label>
-        <ion-input type="input" formControlName="letters" name="letters" clearInput maxlength="7"></ion-input>
+        <ion-input type="input" [(ngModel)]="queryDetails.letters" formControlName="letters" name="letters" clearInput maxlength="7" spellcheck="false" autocapitalize="off">
+        </ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="!isValid('letters')">
+        <p danger padding-left>Wprowadź min. 2 i max. 7 liter!</p>
       </ion-item>
 
       <ion-item>
         <ion-label color="primary">Dodatkowa litera:</ion-label>
-        <ion-input type="input" formControlName="additional" name="additional" clearInput maxlength="1"></ion-input>
+        <ion-input type="input" formControlName="additional" name="additional" clearInput maxlength="1" spellcheck="false" autocapitalize="off">
+        </ion-input>
+      </ion-item>
+      
+      <ion-item *ngIf="!isValid('additional')">
+        <p danger padding-left>Wprowadź max. 1 literę!</p>
       </ion-item>
 
       <ion-list radio-group formControlName="option" name="option">
         <ion-item>
           <ion-label>Wszystkie słowa</ion-label>
-          <ion-radio value='0' checked="true"></ion-radio>
+          <ion-radio value='0' [checked]="true"></ion-radio>
         </ion-item>
         <ion-item>
           <ion-label>Dodatkowa litera na początku</ion-label>
-          <ion-radio value='1'></ion-radio>
+          <ion-radio value='1' [disabled]="isEmpty('additional')"></ion-radio>">
         </ion-item>
         <ion-item>
           <ion-label>Dodatkowa litera na końcu</ion-label>
-          <ion-radio value='2'></ion-radio>
+          <ion-radio value='2' [disabled]="isEmpty('additional')"></ion-radio>
         </ion-item>
       </ion-list>
 
-      <button block ion-button round>
+      <button block ion-button round [disabled]="!myForm.valid">
         <ion-icon name="search"></ion-icon> Szukaj </button>
     </form>
   </ion-list>

@@ -1,30 +1,48 @@
 import { ResultsPage } from './../results/results';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LettersValidator } from '../../validators/letters';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {
-
+export class HomePage implements OnInit {
+  
   myForm: FormGroup;
+  queryDetails: {letters: string, additional: string, option: string} = {letters: '', additional: '', option: ''};
 
   constructor(private navCtrl: NavController, private builder: FormBuilder) {
-    this.myForm = builder.group({
-      'letters': ['', Validators.compose([Validators.maxLength(7), Validators.minLength(2), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      'additional': ['', Validators.compose([Validators.maxLength(1), Validators.pattern('[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]*')])],
-      'option': ['',  Validators.required]
-    })
+    
   }
 
-  onSubmit(formData) {
-    console.log('Form data is ', formData);
-    this.navCtrl.push(ResultsPage, {
-      letters: formData.letters + formData.additional,
-      option: formData.option
+  ngOnInit(): void {
+    this.myForm = this.builder.group({
+      'letters': ['', Validators.compose([Validators.maxLength(7), Validators.pattern('[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*'), Validators.required, LettersValidator.isNotPlausible])],
+      'additional': ['', Validators.compose([Validators.maxLength(1), Validators.pattern('[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*')])],
+      'option': ['', Validators.required]
     });
   }
 
+  onSubmit(formData) {
+    if (this.myForm.valid) {
+      console.log('Form data is ', formData);
+      this.navCtrl.push(ResultsPage, {
+        letters: formData.letters + formData.additional,
+        option: formData.option
+      });
+    }
+
+  }
+
+  isValid(field: string) {
+    let formField = this.myForm.get(field);
+    return formField.valid || formField.pristine;
+  }
+
+  isEmpty(field: string) {
+    let formField = this.myForm.get(field);
+    return formField.pristine || formField.value === '';
+  }
 }
